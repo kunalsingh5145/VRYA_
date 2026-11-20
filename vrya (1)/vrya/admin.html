@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vrya · Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Outfit:wght@400;500&display=swap" rel="stylesheet">
+<style>:root{--bg:#faf9f7;--panel:#fff;--ink:#2b2a27;--mute:#8b887f;--line:#ebe8e2;--brand:#3f3d39;--brand2:#a8a398;--accent:#cfc9bd;--warn:#b0554b;--ok:#4f8a68;--amber:#a5803a;--sh:0 8px 24px -18px rgba(40,35,25,.25)}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.5 "Outfit",system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden}
+header{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 28px;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.hr{display:flex;align-items:center;gap:14px;color:var(--mute)}
+.brand{display:flex;align-items:center;gap:12px}
+.mark{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;background:var(--brand);box-shadow:0 6px 14px -8px rgba(40,35,25,.5);transition:transform .45s cubic-bezier(.3,1.7,.5,1)}
+.brand:hover .mark{transform:rotate(-14deg) scale(1.1)}
+.word{font-family:"Fraunces",Georgia,serif;font-size:27px;font-weight:600;letter-spacing:-.5px;line-height:1}
+.brand small{display:block;color:var(--mute);font-size:12px;margin-top:3px}
+nav{display:flex;gap:4px;margin:20px auto 0;padding:5px;width:fit-content;max-width:calc(100% - 28px);overflow-x:auto;background:var(--panel);border:1px solid var(--line);border-radius:999px;box-shadow:var(--sh)}
+nav button{background:none;border:0;padding:9px 18px;border-radius:999px;font:inherit;color:var(--mute);cursor:pointer;white-space:nowrap;transition:color .2s,background .25s,transform .2s}
+nav button:hover{color:var(--ink);background:var(--bg)}
+nav button.on{color:#fff;font-weight:500;background:var(--brand)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--brand2);outline-offset:2px}
+main{max-width:1100px;margin:22px auto 60px;padding:0 20px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:18px}
+.stat,.card{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:20px;box-shadow:var(--sh)}
+.stat{padding:16px 18px;transition:transform .3s cubic-bezier(.3,1.5,.5,1)}
+.stat:hover{transform:translateY(-4px)}
+.stat b{display:block;font:600 30px "Fraunces",Georgia,serif;letter-spacing:-.5px}
+.stat span{color:var(--mute);font-size:13px}.stat.bad b{color:var(--warn)}
+.stat::before,.card::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%),rgba(120,110,90,.07),transparent 70%)}
+.stat:hover::before,.card:hover::before{opacity:1}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+.card{padding:20px 22px;margin-bottom:16px;overflow-x:auto}
+.card h2{margin:0 0 10px;font:600 20px "Fraunces",Georgia,serif}
+.card small{color:var(--mute);display:block;margin:-6px 0 12px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{color:var(--mute);font-weight:500;font-size:13px}
+tr:last-child td{border-bottom:0}tr:not(:first-child){transition:background .2s}tr:not(:first-child):hover{background:rgba(120,110,90,.06)}
+.tag{padding:3px 10px;border-radius:999px;font-size:12px;background:var(--bg);border:1px solid var(--line);color:var(--mute)}
+.late{color:var(--warn);font-weight:500}.good{color:var(--ok);font-weight:500}.hold{color:var(--amber);font-weight:500}
+form{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;align-items:end}
+label{display:block;font-size:13px;color:var(--mute);margin-bottom:4px}
+input,select,textarea{width:100%;padding:10px 14px;border:1.5px solid var(--line);border-radius:14px;background:var(--bg);color:var(--ink);font:inherit;transition:border-color .2s,box-shadow .2s}
+input:focus,select:focus,textarea:focus{outline:0;border-color:var(--brand2);box-shadow:0 0 0 4px rgba(120,110,90,.15)}
+.tf{max-width:260px;margin-bottom:10px}
+.btn{position:relative;overflow:hidden;background:var(--brand);color:#fff;border:0;padding:10px 20px;border-radius:999px;font:inherit;font-weight:500;cursor:pointer;transition:transform .2s cubic-bezier(.3,1.6,.5,1),box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 16px -8px rgba(40,35,25,.5)}.btn:active{transform:scale(.94)}
+.btn.alt{background:transparent;color:var(--brand);border:1.5px solid var(--line)}.btn.alt:hover{border-color:var(--brand2);box-shadow:none}
+.btn.sm{padding:5px 14px;font-size:13px}
+.rip{position:absolute;border-radius:50%;background:rgba(255,255,255,.45);transform:scale(0);animation:rip .6s ease-out forwards;pointer-events:none}
+@keyframes rip{to{transform:scale(1);opacity:0}}
+.conf{position:fixed;width:8px;height:12px;border-radius:2px;pointer-events:none;z-index:99}
+.bar{display:flex;align-items:center;gap:10px;margin:8px 0}
+.bar i{display:block;height:12px;border-radius:99px;background:linear-gradient(90deg,#d9d4ca,#bdb7aa);transform-origin:left;animation:grow .9s cubic-bezier(.2,.8,.2,1) both}
+.bar span{font-size:13px;min-width:110px;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--mute)}
+@keyframes grow{from{transform:scaleX(0)}}
+#msg{position:fixed;left:50%;bottom:26px;max-width:min(420px,90vw);padding:12px 20px;border-radius:999px;color:#fff;box-shadow:0 12px 30px -8px rgba(0,0,0,.4);opacity:0;pointer-events:none;transform:translate(-50%,24px) scale(.95);transition:opacity .3s,transform .4s cubic-bezier(.3,1.6,.5,1);z-index:50}
+#msg.show{opacity:1;transform:translate(-50%,0) scale(1)}#msg.ok{background:#4f7a62}#msg.err{background:#a4564d}
+.sql{font:12px Consolas,monospace;color:var(--mute);background:var(--bg);padding:10px 12px;border-radius:12px;margin-top:10px;white-space:pre-wrap}
+.dbgrid{display:grid;grid-template-columns:260px 1fr;gap:16px;align-items:start}
+@media (max-width:760px){.dbgrid{grid-template-columns:1fr}header{padding:12px 16px}}
+.obj{display:flex;justify-content:space-between;width:100%;text-align:left;background:none;border:0;border-radius:10px;padding:8px 10px;font:inherit;color:var(--ink);cursor:pointer;transition:background .2s,padding .2s}
+.obj:hover{background:var(--bg);padding-left:14px}.obj.on{background:rgba(120,110,90,.1);font-weight:500}.obj small{color:var(--mute);margin:0}
+.grp{color:var(--mute);font-size:12px;margin:14px 0 4px}
+textarea{min-height:90px;font:13px Consolas,monospace}
+.kp{color:var(--brand);font-weight:500}.empty{color:var(--mute);padding:10px 0}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.chip{border:1.5px solid var(--line);background:none;color:var(--mute);padding:6px 14px;border-radius:999px;font:inherit;font-size:13px;cursor:pointer;transition:all .2s}
+.chip:hover{border-color:var(--brand2);color:var(--ink)}.chip.on{background:var(--brand);border-color:var(--brand);color:#fff}
+.books{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px}
+.book{display:flex;flex-direction:column;background:var(--bg);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:transform .35s cubic-bezier(.3,1.5,.5,1),box-shadow .3s}
+.book:hover{transform:translateY(-7px) rotate(-.8deg);box-shadow:0 20px 30px -16px rgba(40,35,25,.3)}
+.cover{height:132px;padding:14px 14px 14px 22px;display:flex;align-items:flex-end;color:#3a3833;font:600 18px/1.15 "Fraunces",Georgia,serif;box-shadow:inset 9px 0 0 rgba(0,0,0,.07);background:linear-gradient(145deg,hsl(var(--h) 22% 88%),hsl(calc(var(--h) + 30) 20% 80%))}
+.bi{display:flex;flex-direction:column;gap:4px;flex:1;padding:12px 14px 14px;font-size:13px;color:var(--mute)}
+.bi b{color:var(--ink);font-weight:500}.bi .btn{margin-top:auto;align-self:flex-start}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+[hidden]{display:none!important}
+.app{display:grid;grid-template-columns:250px minmax(0,1fr);min-height:100vh}
+aside{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;padding:26px 20px;overflow:hidden;background:linear-gradient(160deg,#f3f0ea,#ebe7df);border-right:1px solid var(--line)}
+aside .brand,aside nav,aside .me{position:relative;z-index:1}
+aside nav{display:flex;flex-direction:column;gap:4px;margin:30px 0 0;padding:0;width:auto;max-width:none;background:none;border:0;border-radius:0;box-shadow:none;overflow:visible}
+aside nav button{text-align:left;border-radius:14px;padding:11px 16px}
+aside nav button:hover{transform:translateX(4px);background:rgba(255,255,255,.7)}
+aside nav button.on{transform:none}
+.me{margin-top:auto;display:flex;flex-direction:column;gap:10px;color:var(--mute);font-size:14px}
+.me .btn{align-self:flex-start}
+.fbs i{position:absolute;width:54px;height:78px;border-radius:5px 10px 10px 5px;box-shadow:inset 6px 0 0 rgba(0,0,0,.06),0 14px 22px -12px rgba(40,35,25,.3);animation:float 7s ease-in-out infinite;transform:translate(calc(var(--px,0)*var(--d)*1px),calc(var(--py,0)*var(--d)*1px)) rotate(var(--r));transition:transform .5s ease-out}
+@keyframes float{50%{translate:0 -14px}}
+aside .fbs{position:absolute;inset:auto 0 110px 0;height:150px;z-index:0}
+main{max-width:1500px;margin:0;padding:28px 32px 70px}
+.hero{position:relative;overflow:hidden;padding:30px 32px;margin-bottom:18px;border-radius:24px;border:1px solid var(--line);background:linear-gradient(135deg,#f1eee7,#fff 70%);box-shadow:var(--sh)}
+.hero>div:first-child{position:relative;z-index:1;max-width:520px}
+.hero h1{margin:0 0 6px;font:600 36px/1.1 "Fraunces",Georgia,serif;letter-spacing:-1px}
+.hero p{margin:0 0 18px;color:var(--mute)}
+.qa{display:flex;gap:10px;flex-wrap:wrap}
+.hero .fbs{position:absolute;inset:0;z-index:0;pointer-events:none}.hero .fbs i{right:var(--x);top:var(--y)}
+.stat[data-go],.feed li{cursor:pointer}
+.feed{list-style:none;margin:0;padding:0}
+.feed li{display:flex;gap:12px;padding:10px 8px;border-bottom:1px solid var(--line);border-radius:10px;transition:background .2s,transform .2s}
+.feed li:hover{background:rgba(120,110,90,.06);transform:translateX(4px)}.feed li:last-child{border:0}
+.dot{width:9px;height:9px;border-radius:50%;margin-top:8px;flex:none;background:var(--brand2)}.dot.g{background:var(--ok)}.dot.r{background:var(--warn)}.dot.a{background:var(--amber)}
+.feed em{font-style:normal;color:var(--mute)}.feed .when{display:block;font-size:12px;color:var(--mute)}.feed .when.late{color:var(--warn)}
+.grid{grid-template-columns:repeat(auto-fit,minmax(360px,1fr))}
+@media (max-width:860px){.app{grid-template-columns:1fr}aside{position:static;height:auto;padding:14px 16px}aside nav{flex-direction:row;overflow-x:auto;margin-top:14px}aside .fbs,.hero .fbs{display:none}.me{flex-direction:row;align-items:center;margin-top:12px}main{padding:20px 14px 60px}}
+</style></head><body>
+<div class="app"><aside><div class="brand"><div class="mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5l8 14 8-14"/></svg></div><div><div class="word">Vrya</div><small>Admin studio</small></div></div><nav id="nav"></nav><div class="fbs"><i style="left:26px;top:6px;--d:-30;--r:-12deg;background:hsl(30 22% 82%);animation-delay:0s"></i><i style="left:96px;top:40px;--d:40;--r:8deg;background:hsl(150 22% 82%);animation-delay:1.2s"></i><i style="left:160px;top:0px;--d:-40;--r:-5deg;background:hsl(210 22% 82%);animation-delay:2.4s"></i></div><div class="me"><span id="who"></span><button class="btn alt sm" id="logout">Log out</button></div></aside><main id="main"></main></div>
+<div id="msg" role="status"></div>
+<script>
+const $=s=>document.querySelector(s);
+const api=async(u,b)=>{const r=await fetch(u,b?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}:{});if(r.status==401||r.status==403){location='/login'}return {ok:r.ok,data:await r.json()}};
+$('#logout').onclick=async()=>{await api('/api/logout',{});location='/login'};
+api('/api/me').then(r=>{if(r.ok)$('#who').textContent=r.data.username});
+const esc=v=>String(v??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function toast(m,ok){const e=$('#msg');e.textContent=m;e.className=ok?'ok':'err';e.style.display='block';clearTimeout(e.t);e.t=setTimeout(()=>e.style.display='none',3500)}
+function table(cols,rows,fmt={}){if(!rows.length)return '<div class="empty">No records.</div>';
+ return '<table><tr>'+cols.map(c=>`<th>${esc(c[1])}</th>`).join('')+'</tr>'+rows.map(r=>'<tr>'+cols.map(c=>`<td>${fmt[c[0]]?fmt[c[0]](r):esc(r[c[0]])}</td>`).join('')+'</tr>').join('')+'</table>'}
+function bars(rows,k,v){const m=Math.max(...rows.map(r=>r[v]),1);return rows.map(r=>`<div class="bar"><span>${esc(r[k])}</span><i style="width:${r[v]/m*70}%"></i><b>${r[v]}</b></div>`).join('')||'<div class="empty">No data.</div>'}
+const TABS=['Dashboard','Resources','Members','Circulation','Overdue &amp; fines','Database'];
+let tab=0;
+$('#nav').innerHTML=TABS.map((t,i)=>`<button data-i="${i}">${t}</button>`).join('');
+$('#nav').onclick=e=>{const b=e.target.closest('button');if(b){tab=+b.dataset.i;render()}};
+async function render(){
+ document.querySelectorAll('nav button').forEach((b,i)=>b.classList.toggle('on',i===tab));
+ [dash,resources,members,circ,overdue,database][tab]().then(h=>{$('#main').innerHTML=h;bind()});
+}
+async function dash(){
+ const [s,pop,mon,cat,dues,tx,od]=await Promise.all(['stats','popular','monthly','categories','dues','transactions','overdue'].map(x=>api('/api/'+x).then(r=>r.data)));
+ const st=s[0],h=new Date().getHours(),g=h<12?'Good morning':h<17?'Good afternoon':'Good evening';
+ const recent=[...tx].sort((a,b)=>b.txn_id-a.txn_id).slice(0,7);
+ const feed=recent.map(t=>{const k=t.return_date?['g','returned',t.return_date]:t.return_requested_on?['a','asked to return',t.return_requested_on]:['','borrowed',t.issue_date];
+  return `<li data-go="3"><i class="dot ${k[0]}"></i><div><b>${esc(t.member)}</b> ${k[1]} <em>${esc(t.title)}</em><span class="when">${esc(k[2])}</span></div></li>`}).join('')||'<div class="empty">No activity yet.</div>';
+ const late=od.slice(0,6).map(o=>`<li data-go="4"><i class="dot r"></i><div><b>${esc(o.member)}</b> has <em>${esc(o.title)}</em><span class="when late">${o.days_overdue} days overdue, Rs ${o.fine_so_far} so far</span></div></li>`).join('')||'<div class="empty">Nothing overdue. All clear.</div>';
+ return `<div class="hero"><div><h1>${g}</h1><p>${st.on_loan} resources are out, ${st.overdue} are overdue and ${st.pending_returns} return requests are waiting for you.</p>
+ <div class="qa"><button class="btn" data-go="3">Issue a resource</button><button class="btn alt" data-go="2">Add member</button><button class="btn alt" data-go="1">Add resource</button></div></div>
+ <div class="fbs"><i style="--x:9%;--y:16%;--d:-30;--r:-12deg;background:hsl(30 24% 84%)"></i><i style="--x:19%;--y:34%;--d:40;--r:9deg;background:hsl(150 20% 82%);animation-delay:1.2s"></i><i style="--x:4%;--y:50%;--d:-50;--r:-5deg;background:hsl(210 22% 84%);animation-delay:2.4s"></i></div></div>
+ <div class="stats">
+ <div class="stat" data-go="1"><b>${st.resources}</b><span>Resources</span></div>
+ <div class="stat" data-go="2"><b>${st.members}</b><span>Members</span></div>
+ <div class="stat" data-go="3"><b>${st.on_loan}</b><span>Currently on loan</span></div>
+ <div class="stat bad" data-go="4"><b>${st.overdue}</b><span>Overdue</span></div>
+ <div class="stat ${st.pending_returns?'bad':''}" data-go="3"><b>${st.pending_returns}</b><span>Return requests to verify</span></div>
+ <div class="stat bad" data-go="4"><b>Rs ${st.unpaid_fines}</b><span>Unpaid fines</span></div></div>
+ <div class="grid">
+ <div class="card"><h2>Needs attention</h2><small>Overdue loans, click to open</small><ul class="feed">${late}</ul></div>
+ <div class="card"><h2>Recent activity</h2><small>Latest circulation</small><ul class="feed">${feed}</ul></div>
+ <div class="card"><h2>Most borrowed resources</h2><small>View: v_popular_resources</small>${bars(pop,'title','times_borrowed')}</div>
+ <div class="card"><h2>Borrowing by category</h2><small>JOIN + GROUP BY</small>${bars(cat,'category','borrows')}</div>
+ <div class="card"><h2>Monthly issues</h2><small>CTE: WITH monthly AS (...)</small>${bars(mon,'month','issues')}</div>
+ <div class="card"><h2>Unpaid penalties by member</h2><small>CTE: WITH dues AS (...)</small>${table([['name','Member'],['owed','Owed (Rs)']],dues)}</div></div>`;
+}
+async function resources(){
+ const r=(await api('/api/resources')).data;
+ return `<div class="card"><h2>Add a resource</h2><form id="fRes">
+ <div><label>Title</label><input name="title" required></div>
+ <div><label>Authors (comma separated)</label><input name="authors"></div>
+ <div><label>ISBN</label><input name="isbn"></div>
+ <div><label>Type</label><select name="type"><option>PHYSICAL</option><option>DIGITAL</option></select></div>
+ <div><label>Publisher</label><input name="publisher" required></div>
+ <div><label>Category</label><input name="category" required></div>
+ <div><label>Copies</label><input name="copies" type="number" min="1" value="1"></div>
+ <div><label>Year</label><input name="year" type="number"></div>
+ <div><button class="btn">Add resource</button></div></form></div>
+ <div class="card"><h2>Catalogue</h2>${table([['resource_id','ID'],['title','Title'],['authors','Authors'],['publisher','Publisher'],['category','Category'],['type','Type'],['avail','Available']],r,
+ {type:x=>`<span class="tag">${esc(x.type)}</span>`,avail:x=>`<span class="${x.copies_avail?'good':'late'}">${x.copies_avail}/${x.copies_total}</span>`})}</div>`;
+}
+async function members(){
+ const [m,p]=await Promise.all([api('/api/members'),api('/api/plans')]).then(a=>a.map(x=>x.data));
+ return `<div class="card"><h2>Add a member</h2><form id="fMem">
+ <div><label>Name</label><input name="name" required></div>
+ <div><label>Email</label><input name="email" type="email" required></div>
+ <div><label>Phone</label><input name="phone"></div>
+ <div><label>Login username (optional)</label><input name="username"></div>
+ <div><label>Login password</label><input name="password" type="password"></div>
+ <div><label>Plan</label><select name="plan_id">${p.map(x=>`<option value="${x.plan_id}">${esc(x.plan_name)} (${x.max_books} books, ${x.loan_days} days)</option>`).join('')}</select></div>
+ <div><button class="btn">Add member</button></div></form></div>
+ <div class="card"><h2>Members</h2><small>View: v_member_summary</small>${table([['member_id','ID'],['name','Name'],['plan_name','Plan'],['total_borrowed','Total borrowed'],['currently_holding','Holding now']],m)}</div>`;
+}
+async function circ(){
+ const [m,r,t,rs]=await Promise.all(['members','resources','transactions','reservations'].map(x=>api('/api/'+x).then(a=>a.data)));
+ const mo=m.map(x=>`<option value="${x.member_id}">${x.member_id} - ${esc(x.name)}</option>`).join('');
+ const ro=r.map(x=>`<option value="${x.resource_id}">${x.resource_id} - ${esc(x.title)} (${x.copies_avail} left)</option>`).join('');
+ const pend=t.filter(x=>!x.return_date&&x.return_requested_on);
+ return `<div class="card"><h2>Pending return requests</h2><small>Member says they returned it. Confirm only after you physically receive the book; reject if it has not arrived.</small>${table([['txn_id','Txn'],['member','Member'],['title','Resource'],['due_date','Due'],['return_requested_on','Requested on'],['act','']],pend,{act:x=>`<button class="btn sm" data-ret="${x.txn_id}">Confirm received</button> <button class="btn sm alt" data-rej="${x.txn_id}">Reject</button>`})}</div>
+ <div class="card"><h2>Issue or reserve a resource</h2><form id="fIssue">
+ <div><label>Member</label><select name="member_id">${mo}</select></div>
+ <div><label>Resource</label><select name="resource_id">${ro}</select></div>
+ <div style="display:flex;gap:8px"><button class="btn" data-act="issue">Issue</button><button class="btn alt" data-act="reserve">Reserve</button></div></form></div>
+ <div class="card"><h2>Transactions</h2>${table([['txn_id','ID'],['member','Member'],['title','Resource'],['issue_date','Issued'],['due_date','Due'],['status','Status'],['act','']],t,
+ {status:x=>x.return_date?`<span class="good">Returned ${esc(x.return_date)}</span>`:x.return_requested_on?'<span class="hold">Return requested</span>':(x.due_date<'2026-11-18'?'<span class="late">Overdue</span>':'<span class="hold">On loan</span>'),
+  act:x=>x.return_date?'':`<button class="btn sm" data-ret="${x.txn_id}">Mark returned</button>`})}</div>
+ <div class="card"><h2>Reservations</h2>${table([['member','Member'],['title','Resource'],['res_date','Date'],['status','Status']],rs)}</div>`;
+}
+async function overdue(){
+ const o=(await api('/api/overdue')).data;
+ const fn=(await api('/api/fines')).data;
+ return `<div class="card"><h2>Overdue resources</h2><small>View: v_overdue (return_date IS NULL AND due_date &lt; today). Fine = days overdue x plan fine per day.</small>
+ ${table([['txn_id','Txn'],['member','Member'],['title','Resource'],['due_date','Due date'],['days_overdue','Days overdue'],['fine_so_far','Fine so far (Rs)']],o,{days_overdue:x=>`<span class="late">${x.days_overdue}</span>`})}
+ <div class="sql">SELECT ... FROM transaction_log t JOIN member m ... JOIN membership_plan p ...
+WHERE t.return_date IS NULL AND t.due_date &lt; today;</div></div>
+ <div class="card"><h2>Penalties charged</h2>${table([['member','Member'],['title','Resource'],['days_late','Days late'],['amount','Amount (Rs)'],['paid','Status'],['act','']],fn,{paid:x=>x.paid?'<span class="good">Paid</span>':'<span class="late">Unpaid</span>',act:x=>x.paid?'':`<button class="btn sm" data-pay="${x.penalty_id}">Mark paid</button>`})}</div>`;
+}
+let dbSel=null;
+async function database(){
+ const o=(await api('/api/db/objects')).data;
+ const tabs=o.filter(x=>x.type=='table'),views=o.filter(x=>x.type=='view'),idx=o.filter(x=>x.type=='index');
+ if(!dbSel)dbSel=tabs[0].name;
+ const li=x=>`<button class="obj ${x.name==dbSel?'on':''}" data-obj="${esc(x.name)}">${esc(x.name)}<small>${x.rows} rows</small></button>`;
+ const cur=o.find(x=>x.name==dbSel);
+ const rows=(await api('/api/db/table?name='+encodeURIComponent(dbSel))).data;
+ const fkm={};(cur.fks||[]).forEach(f=>fkm[f.from]=f.table+'.'+f.to);
+ const struct='<table><tr><th>Column</th><th>Type</th><th>Key</th><th>Not null</th><th>Default</th></tr>'+cur.columns.map(c=>`<tr><td>${esc(c.name)}</td><td>${esc(c.type)}</td><td class="kp">${c.pk?'PRIMARY KEY':''}${fkm[c.name]?'FK &rarr; '+esc(fkm[c.name]):''}</td><td>${c.notnull?'yes':''}</td><td>${esc(c.dflt_value)}</td></tr>`).join('')+'</table>';
+ return `<div class="dbgrid"><div class="card"><div class="grp">TABLES (${tabs.length})</div>${tabs.map(li).join('')}<div class="grp">VIEWS (${views.length})</div>${views.map(li).join('')}<div class="grp">INDEXES (${idx.length})</div>${idx.map(x=>`<div style="padding:4px;font-size:13px">${esc(x.name)}<br><small style="color:var(--mute)">on ${esc(x.tbl_name)}</small></div>`).join('')}</div>
+ <div><div class="card"><h2>${esc(dbSel)} <span class="tag">${cur.type}</span></h2>${struct}<div class="sql">${esc(cur.sql)}</div></div>
+ <div class="card"><h2>Data in ${esc(dbSel)}</h2>${rtable(rows.columns,rows.rows)}</div>
+ <div class="card"><h2>SQL console (read-only)</h2><small>Type any SELECT / WITH / PRAGMA query and press Run.</small>
+ <textarea id="sqlbox">SELECT m.name, r.title, t.due_date FROM transaction_log t JOIN member m USING(member_id) JOIN resource r USING(resource_id) WHERE t.return_date IS NULL;</textarea>
+ <p><button class="btn" id="runsql">Run query</button></p><div id="sqlout"></div></div></div></div>`;
+}
+function rtable(cols,rows){if(!rows.length)return '<div class="empty">No rows returned.</div>';return '<table><tr>'+cols.map(c=>`<th>${esc(c)}</th>`).join('')+'</tr>'+rows.map(r=>'<tr>'+r.map(v=>`<td>${v===null?'<i style="color:var(--mute)">NULL</i>':esc(v)}</td>`).join('')+'</tr>').join('')+'</table>'}
+function bind(){
+ document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{tab=+b.dataset.go;render();scrollTo({top:0,behavior:'smooth'})});
+ document.querySelectorAll('[data-pay]').forEach(b=>b.onclick=async()=>{const r=await api('/api/pay',{penalty_id:b.dataset.pay});toast(r.data.message||r.data.error,r.ok);if(r.ok)render()});
+ document.querySelectorAll('[data-obj]').forEach(b=>b.onclick=()=>{dbSel=b.dataset.obj;render()});
+ const rs=$('#runsql');if(rs)rs.onclick=async()=>{const r=await api('/api/db/query',{sql:$('#sqlbox').value});$('#sqlout').innerHTML=r.ok?`<small>${r.data.rows.length} row(s)</small>`+rtable(r.data.columns,r.data.rows):`<div class="late">${esc(r.data.error)}</div>`};
+ const f=(id,url,after)=>{const e=$(id);if(!e)return;e.onsubmit=async ev=>{ev.preventDefault();const d=Object.fromEntries(new FormData(e));const r=await api(url,d);toast(r.data.message||r.data.error,r.ok);if(r.ok)render()}};
+ f('#fRes','/api/resources');f('#fMem','/api/members');
+ const fi=$('#fIssue');if(fi){fi.onsubmit=e=>e.preventDefault();fi.querySelectorAll('button').forEach(b=>b.onclick=async()=>{const d=Object.fromEntries(new FormData(fi));const r=await api('/api/'+b.dataset.act,d);toast(r.data.message||r.data.error,r.ok);if(r.ok)render()})}
+ document.querySelectorAll('[data-rej]').forEach(b=>b.onclick=async()=>{const r=await api('/api/reject-return',{txn_id:b.dataset.rej});toast(r.data.message||r.data.error,r.ok);if(r.ok)render()});
+ document.querySelectorAll('[data-ret]').forEach(b=>b.onclick=async()=>{const r=await api('/api/return',{txn_id:b.dataset.ret});toast(r.data.message||r.data.error,r.ok);if(r.ok)render()});
+}
+render();
+(()=>{
+const calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let last={x:innerWidth/2,y:innerHeight-60};
+addEventListener('pointerdown',e=>{last={x:e.clientX,y:e.clientY};const b=e.target.closest&&e.target.closest('.btn');
+ if(b&&!calm){const r=b.getBoundingClientRect(),s=document.createElement('span'),d=Math.max(r.width,r.height)*2;s.className='rip';s.style.cssText=`width:${d}px;height:${d}px;left:${e.clientX-r.left-d/2}px;top:${e.clientY-r.top-d/2}px`;b.appendChild(s);setTimeout(()=>s.remove(),600)}});
+addEventListener('pointermove',e=>{const d=document.documentElement;d.style.setProperty('--px',(e.clientX/innerWidth-.5)*2);d.style.setProperty('--py',(e.clientY/innerHeight-.5)*2);
+ const c=e.target.closest&&e.target.closest('.card,.stat');if(c){const r=c.getBoundingClientRect();c.style.setProperty('--mx',e.clientX-r.left+'px');c.style.setProperty('--my',e.clientY-r.top+'px')}});
+window.burst=(x,y)=>{if(calm)return;const cols=['#cfc9bd','#b9b3a6','#e4dfd5','#a8a398','#d8d2c6'];
+ for(let i=0;i<20;i++){const p=document.createElement('i');p.className='conf';p.style.cssText=`left:${x}px;top:${y}px;background:${cols[i%5]}`;document.body.appendChild(p);
+  const a=Math.random()*6.28,v=60+Math.random()*100;
+  p.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:`translate(${Math.cos(a)*v}px,${Math.sin(a)*v-50}px) rotate(${Math.random()*540}deg) scale(.4)`,opacity:0}],{duration:800+Math.random()*400,easing:'cubic-bezier(.2,.8,.3,1)'}).onfinish=()=>p.remove()}};
+window.toast=function(m,ok){const e=document.querySelector('#msg');e.textContent=m;e.className=(ok?'ok':'err')+' show';clearTimeout(e.t);e.t=setTimeout(()=>e.classList.remove('show'),3500);if(ok)burst(last.x,last.y)};
+const enh=()=>{
+ document.querySelectorAll('.stat b:not([data-c])').forEach(b=>{b.dataset.c=1;const m=b.textContent.match(/^(Rs )?(\d+(?:\.\d+)?)$/);if(!m||calm)return;
+  const end=+m[2],dec=(m[2].split('.')[1]||'').length,t0=performance.now();
+  const tick=t=>{const k=Math.min((t-t0)/900,1);b.textContent=(m[1]||'')+(end*(1-Math.pow(1-k,3))).toFixed(dec);if(k<1)requestAnimationFrame(tick)};requestAnimationFrame(tick)});
+ document.querySelectorAll('.card table:not([data-f])').forEach(t=>{t.dataset.f=1;if(t.rows.length<8)return;
+  const i=document.createElement('input');i.className='tf';i.placeholder='Filter rows';
+  i.oninput=()=>{const q=i.value.toLowerCase();[...t.rows].slice(1).forEach(r=>r.hidden=!r.textContent.toLowerCase().includes(q))};t.before(i)})};
+new MutationObserver(enh).observe(document.querySelector('#main'),{childList:true});
+})();
+</script></body></html>
